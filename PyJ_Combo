@@ -1,0 +1,240 @@
+import java.util.*;
+
+public class PyJ_Combo
+{
+    static Scanner sc = new Scanner(System.in);
+
+    static void print(Object o)  { System.out.println(o); }
+    static void print(int[] a)   { System.out.println(Arrays.toString(a)); }
+
+    static String input(String prompt)
+    {
+        System.out.print(prompt);
+        return sc.nextLine();
+    }
+
+    static String input() { return sc.nextLine(); }
+
+
+    static int toInt(String s)       { return Integer.parseInt(s.trim()); }
+    static double toFloat(String s)  { return Double.parseDouble(s.trim()); }
+    static String str(Object o)      { return String.valueOf(o); }
+
+
+    static int len(String s)         { return s.length(); }
+    static int len(int[] a)          { return a.length; }
+    static int len(Collection<?> c)  { return c.size(); }
+    static int len(Map<?, ?> m)      { return m.size(); }
+
+
+    static int[] range(int stop)
+    {
+        return range(0, stop, 1);
+    }
+
+    static int[] range(int start, int stop)
+    {
+        return range(start, stop, 1);
+    }
+
+    static int[] range(int start, int stop, int step)
+    {
+        if (step == 0) throw new IllegalArgumentException("step cannot be 0");
+
+        int count;
+        if (step > 0) count = Math.max(0, (stop - start + step - 1) / step);
+        else          count = Math.max(0, (start - stop - step - 1) / (-step));
+
+        int[] result = new int[count];
+        for (int i = 0; i < count; i++)
+        {
+            result[i] = start + i * step;
+        }
+        return result;
+    }
+
+
+    static int sum(int[] arr)
+    {
+        int total = 0;
+        for (int n : arr) total += n;
+        return total;
+    }
+
+    static int sum(List<Integer> list)
+    {
+        int total = 0;
+        for (int n : list) total += n;
+        return total;
+    }
+
+    static int max(int[] arr)
+    {
+        int best = arr[0];
+        for (int n : arr) if (n > best) best = n;
+        return best;
+    }
+
+    static int min(int[] arr)
+    {
+        int best = arr[0];
+        for (int n : arr) if (n < best) best = n;
+        return best;
+    }
+
+    static int abs(int n)        { return n < 0 ? -n : n; }
+    static double abs(double d)  { return d < 0 ? -d : d; }
+    static int round(double d)   { return (int) Math.round(d); }
+    static double pow(double a, double b) { return Math.pow(a, b); }
+    static double sqrt(double d) { return Math.sqrt(d); }
+
+    static long factorial(int n)
+    {
+        long result = 1;
+        for (int i = 2; i <= n; i++) result *= i;
+        return result;
+    }
+
+    static boolean isPrime(int n)
+    {
+        if (n < 2) return false;
+        for (int i = 2; i * i <= n; i++)
+        {
+            if (n % i == 0) return false;
+        }
+        return true;
+    }
+
+    static boolean isEven(int n) { return n % 2 == 0; }
+
+
+    static String upper(String s)  { return s.toUpperCase(); }
+    static String lower(String s)  { return s.toLowerCase(); }
+    static String strip(String s)  { return s.trim(); }
+
+    static String replace(String s, String old, String repl)
+    {
+        return s.replace(old, repl);
+    }
+
+    static boolean startswith(String s, String prefix) { return s.startsWith(prefix); }
+    static boolean endswith(String s, String suffix)   { return s.endsWith(suffix); }
+    static int find(String s, String sub)              { return s.indexOf(sub); }
+
+    static int count(String s, String sub)
+    {
+        if (sub.isEmpty()) return 0;
+        int total = 0;
+        int index = s.indexOf(sub);
+        while (index != -1)
+        {
+            total++;
+            index = s.indexOf(sub, index + sub.length());
+        }
+        return total;
+    }
+
+    static List<String> split(String s, String sep)
+    {
+        return new ArrayList<>(Arrays.asList(s.split(java.util.regex.Pattern.quote(sep))));
+    }
+
+    static List<String> split(String s)
+    {
+        return new ArrayList<>(Arrays.asList(s.trim().split("\\s+")));
+    }
+
+    static String join(String sep, List<String> parts)
+    {
+        return String.join(sep, parts);
+    }
+
+    static String reverse(String s)
+    {
+        return new StringBuilder(s).reverse().toString();
+    }
+
+    static boolean isPalindrome(String s)
+    {
+        String clean = lower(s);
+        return clean.equals(reverse(clean));
+    }
+
+
+    static int[] sorted(int[] arr)
+    {
+        int[] copy = Arrays.copyOf(arr, arr.length);
+        Arrays.sort(copy);
+        return copy;
+    }
+
+    static int[] reversed(int[] arr)
+    {
+        int[] result = new int[arr.length];
+        for (int i = 0; i < arr.length; i++)
+        {
+            result[i] = arr[arr.length - 1 - i];
+        }
+        return result;
+    }
+
+    static <T> boolean has(List<T> list, T item)
+    {
+        return list.contains(item);
+    }
+
+
+    static Random rn = new Random();
+
+    static int randint(int a, int b)
+    {
+        return a + rn.nextInt(b - a + 1);
+    }
+
+    static <T> T choice(List<T> list)
+    {
+        return list.get(rn.nextInt(list.size()));
+    }
+
+
+    static void sleep(double seconds)
+    {
+        try
+        {
+            Thread.sleep((long) (seconds * 1000));
+        }
+        catch (InterruptedException e)
+        {
+            Thread.currentThread().interrupt();
+        }
+    }
+
+    public static void main(String[] args)
+    {
+        String name = input("name: ");
+        print("Howdy! " + upper(name) + "!");
+        print("Letters: " + len(name));
+        print("Reversed: " + reverse(name));
+        print("Palindrome? " + isPalindrome(name));
+
+        int[] nums = range(1, 6);
+        print(nums);
+        print("sum = " + sum(nums));
+        print("max = " + max(nums));
+        print(reversed(nums));
+        print(range(10, 0, -3));
+
+        print("5! = " + factorial(5));
+        print("17 prime? " + isPrime(17));
+        print("random 1-100: " + randint(1, 100));
+
+        List<String> words = split("pineapple is not apple!");
+        print(words);
+        print(join("-", words));
+        print("kids like games LOL " + has(words, "kids"));
+
+        print("Waiting 1 second...");
+        sleep(1);
+        print("Done!");
+    }
+}
